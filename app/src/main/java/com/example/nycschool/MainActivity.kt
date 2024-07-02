@@ -1,7 +1,6 @@
 package com.example.nycschool
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -28,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val highSchoolViewModel: HighSchoolViewModel by viewModels()
     private val satResultViewModel: SatResultViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
