@@ -75,8 +75,22 @@ dependencies {
     kapt(libs.androidx.hilt.compiler)
 
     // Retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    /*//paging
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+*/
+    // Replace with the latest versions as necessary
+    implementation (libs.androidx.paging.compose)
+
+    // Other necessary dependencies for Compose and Paging
+    implementation (libs.ui)
+    implementation (libs.androidx.paging.runtime)
+    // ViewModel and LiveData
+   // implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+   // implementation ("androidx.activity:activity-compose:1.4.0")
 }
 
 // Allow references to generated code
