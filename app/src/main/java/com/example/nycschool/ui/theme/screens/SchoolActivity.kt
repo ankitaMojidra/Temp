@@ -16,15 +16,11 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nycschool.data.model.School
 import com.example.nycschool.domain.NetworkStatus
 import com.example.nycschool.ui.theme.theme.NYCSchoolTheme
@@ -42,11 +38,7 @@ class SchoolActivity : ComponentActivity() {
         setContent {
             NYCSchoolTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SchoolListScreen(schoolViewModel, modifier = Modifier.padding(innerPadding))
-                    /*SchoolDetailScreen(
-                        schoolViewModel,
-                        modifier = Modifier.padding(innerPadding)
-                    )*/
+                    SchoolListScreen(modifier = Modifier.padding(innerPadding),schoolViewModel)
                 }
             }
         }
@@ -54,32 +46,21 @@ class SchoolActivity : ComponentActivity() {
 }
 
 @Composable
-fun SchoolListScreen(schoolViewModel: SchoolViewModel, modifier: Modifier) {
+fun SchoolListScreen( modifier: Modifier = Modifier,
+    schoolViewModel: SchoolViewModel = hiltViewModel(),
 
+) {
     val networkStatus by schoolViewModel.networkStatus
-    val schools by schoolViewModel.schools.collectAsState()
 
     Box(modifier = modifier.fillMaxSize()) {
         when (networkStatus) {
             is NetworkStatus.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                //CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
             is NetworkStatus.Success -> {
                 val satScore = (networkStatus as NetworkStatus.Success<List<School>>).data
-                Column {
-                    Text(
-                        text = "Sat Scores",
-                        modifier = Modifier.padding(top = 30.dp),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                    Divider(
-                        color = Color.Black,
-                        thickness = 3.dp,
-                        modifier = Modifier.padding(top = 10.dp)
-                    )
+                Column(modifier = Modifier.padding(top = 35.dp)) {
 
                     LazyColumn(modifier = Modifier.padding(15.dp)) {
                         items(satScore) { result ->
@@ -146,23 +127,5 @@ private fun SchoolItems(school: School) {
             modifier = Modifier.padding(top = 10.dp)
         )
         Divider(modifier = Modifier.padding(top = 10.dp))
-    }
-}
-
-@Composable
-fun SchoolDetailScreen(viewModel: SchoolViewModel, modifier: Modifier) {
-    val school by viewModel.schools.collectAsState()
-    val satScore = viewModel.getSatScoreForSchool(school.first().dbn)
-
-    Column {
-        Text(text = school.first().schoolName, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-        Text(text = "Location: ${school.first().location}")
-
-        satScore?.let {
-            Text(text = "SAT Scores:")
-            /* Text(text = "Reading: ${it.satCriticalReadingAvgScore}")
-             Text(text = "Math: ${it.satMathAvgScore}")
-             Text(text = "Writing: ${it.satMathAvgScore}")*/
-        }
     }
 }

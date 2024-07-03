@@ -17,13 +17,13 @@ class SatScoreViewModel @Inject constructor(
 
     val networkStatus = mutableStateOf<NetworkStatus<List<SatScore>>>(NetworkStatus.Loading)
     val allSatResultUsers = mutableStateOf<List<SatScore>>(emptyList())
-    val errorMessage = mutableStateOf("")
+    private val errorMessage = mutableStateOf("")
 
     init {
-        getSatResultData()
+        loadSatResultData()
     }
 
-    private fun getSatResultData() {
+    fun loadSatResultData() {
         viewModelScope.launch {
             networkStatus.value = NetworkStatus.Loading
             try {

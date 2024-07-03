@@ -74,24 +74,16 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     kapt(libs.androidx.hilt.compiler)
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-    /*//paging
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.compose)
-*/
-    // Replace with the latest versions as necessary
-    implementation (libs.androidx.paging.compose)
-
-    // Other necessary dependencies for Compose and Paging
-    implementation (libs.ui)
-    implementation (libs.androidx.paging.runtime)
-    // ViewModel and LiveData
-   // implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-   // implementation ("androidx.activity:activity-compose:1.4.0")
+    testImplementation ("org.mockito:mockito-core:3.12.4")
+    testImplementation ("org.mockito:mockito-inline:3.12.4")
+    testImplementation ("androidx.arch.core:core-testing:2.1.0")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
 }
 
 // Allow references to generated code

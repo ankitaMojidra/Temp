@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nycschool.data.model.SatScore
 import com.example.nycschool.domain.NetworkStatus
 import com.example.nycschool.ui.theme.theme.NYCSchoolTheme
@@ -32,7 +33,7 @@ import com.example.nycschool.viewmodel.SatScoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class SatScoreActivity : ComponentActivity() {
 
     private val satResultViewModel: SatScoreViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,32 +53,19 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun SatScoreListScreen(satResultViewModel: SatScoreViewModel, modifier: Modifier) {
-    val satScore by satResultViewModel.allSatResultUsers
+fun SatScoreListScreen(satResultViewModel: SatScoreViewModel = hiltViewModel(), modifier: Modifier = Modifier) {
 
     val networkStatus by satResultViewModel.networkStatus
 
     Box(modifier = modifier.fillMaxSize()) {
         when (networkStatus) {
             is NetworkStatus.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+               // CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
             is NetworkStatus.Success -> {
                 val satScore = (networkStatus as NetworkStatus.Success<List<SatScore>>).data
-                Column {
-                    Text(
-                        text = "Sat Scores",
-                        modifier = Modifier.padding(top = 30.dp),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                    Divider(
-                        color = Color.Black,
-                        thickness = 3.dp,
-                        modifier = Modifier.padding(top = 10.dp)
-                    )
+                Column(modifier = Modifier.padding(top = 35.dp)) {
 
                     LazyColumn(modifier = Modifier.padding(15.dp)) {
                         items(satScore) { result ->
